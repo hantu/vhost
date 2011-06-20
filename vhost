@@ -16,8 +16,12 @@
 # - Commented the part where it opens a browser.
 # - Removed version_check, not needed.
 # - Removed the part that opens application, not needed.
-# 
 #
+# - Added ~/.vhost.conf checking.
+# - Re-use the same structure as OS X's Apache installation,
+#   virtualhosts/ instead of vhosts/
+# - Simplify permission, only runs if you sudo. 
+# 
 #
 # AUTHOR
 # Andy Goh <andy@goh.my>
@@ -27,20 +31,15 @@
 #
 # --
 
-# No point going any farther if we're not running correctly...
-if [ `whoami` != 'root' ]; then
-	echo "vhost requires super-user privileges to work."
-	echo "Enter your password to continue..."
-	sudo $0 $* || exit 1
+# Don't run as ROOT user.
+if [ `whoami` = 'root' ]; then
+	/bin/echo "vhost: Run this under regular user account using sudo (not root)."
+	exit 1
 fi
 
-if [ -z "$SUDO_USER" ]; then
-	/bin/echo "You must start this under your regular user account using sudo."
-	/bin/echo "Rerun using: sudo $0 $*"
-	exit 1
-elif [ $SUDO_USER = "root" ]; then
-	/bin/echo "You must start this under your regular user account (not root) using sudo."
-	/bin/echo "Rerun using: sudo $0 $*"
+# Only if the script is being run as root
+if [ "$(id -u)" != "0" ]; then
+	/bin/echo "vhost: Re-run this using sudo."
 	exit 1
 fi
 
