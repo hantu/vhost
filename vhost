@@ -50,6 +50,9 @@ fi
 # redo your own settings.
 if [ -e ~/.vhost.conf ]; then
 	. ~/.vhost.conf
+else
+	/bin/echo "Unable to locate ~/.vhost.conf, please make sure you have your config file available."
+	exit 1
 fi
 
 
