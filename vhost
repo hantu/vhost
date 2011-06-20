@@ -94,7 +94,7 @@ create_vhost()
 			chown $USER "${log_folder_path}"
 		fi
 	fi
-	cat << __EOF >$APACHE_CONFIG/vhosts/$1
+	cat << __EOF >$APACHE_CONFIG/virtualhosts/$1
 # Created $date
 <VirtualHost *:80>
   DocumentRoot "$2"
@@ -251,8 +251,8 @@ if [ ! -z $DELETE ]; then
 
 		/bin/echo "done"
 		
-		if [ -e $APACHE_CONFIG/vhosts/$VIRTUALHOST ]; then
-			DOCUMENT_ROOT=`grep DocumentRoot $APACHE_CONFIG/vhosts/$VIRTUALHOST | awk '{print $2}' | tr -d '"'`
+		if [ -e $APACHE_CONFIG/virtualhosts/$VIRTUALHOST ]; then
+			DOCUMENT_ROOT=`grep DocumentRoot $APACHE_CONFIG/virtualhosts/$VIRTUALHOST | awk '{print $2}' | tr -d '"'`
 
 			if [ -d $DOCUMENT_ROOT ]; then
 				/bin/echo -n "  + Found DocumentRoot $DOCUMENT_ROOT. Delete this folder? [y/N]: "
@@ -271,8 +271,8 @@ if [ ! -z $DELETE ]; then
 				esac
 			fi
 				
-			/bin/echo -n "  - Deleting vhost file... ($APACHE_CONFIG/vhosts/$VIRTUALHOST) "
-			rm $APACHE_CONFIG/vhosts/$VIRTUALHOST
+			/bin/echo -n "  - Deleting vhost file... ($APACHE_CONFIG/virtualhosts/$VIRTUALHOST) "
+			rm $APACHE_CONFIG/virtualhosts/$VIRTUALHOST
 			/bin/echo "done"
 
 			/bin/echo -n "+ Restarting Apache... "
@@ -294,8 +294,8 @@ fi
 #
 # a) Backup the original to $APACHE_CONFIG/httpd.conf.original
 # b) Add a NameVirtualHost 127.0.0.1 line
-# c) Create $APACHE_CONFIG/vhosts/ (vhost definition files reside here)
-# d) Add a line to include all files in $APACHE_CONFIG/vhosts/
+# c) Create $APACHE_CONFIG/virtualhosts/ (vhost definition files reside here)
+# d) Add a line to include all files in $APACHE_CONFIG/virtualhosts/
 # e) Create a _localhost file for the default "localhost" vhost
 #
 
