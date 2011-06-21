@@ -31,12 +31,6 @@
 #
 # --
 
-# Don't run as ROOT user.
-if [ `whoami` = 'root' ]; then
-	/bin/echo "vhost: Run this under regular user account using sudo (not root)."
-	exit 1
-fi
-
 # Only if the script is being run as root
 if [ "$(id -u)" != "0" ]; then
 	/bin/echo "vhost: Re-run this using sudo."
